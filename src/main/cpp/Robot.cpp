@@ -9,6 +9,8 @@
 #include <frc/TimedRobot.h>
 #include <frc/drive/DifferentialDrive.h>
 #include "rev/CANSparkMax.h"
+#include <frc/XboxController.h>
+#include <cameraserver/CameraServer.h>
 
 class Robot : public frc::TimedRobot {
   /**
@@ -39,10 +41,12 @@ class Robot : public frc::TimedRobot {
    */
   frc::DifferentialDrive m_robotDrive{m_leftLeadMotor, m_rightLeadMotor};
 
-  frc::Joystick m_stick{0};
+  //frc::Joystick m_stick{0};
+  frc::XboxController pad{0};
   
  public:
   void RobotInit() {
+    frc::CameraServer::StartAutomaticCapture();
     /**
      * The RestoreFactoryDefaults method can be used to reset the configuration parameters
      * in the SPARK MAX to their factory default state. If no argument is passed, these
@@ -67,7 +71,7 @@ class Robot : public frc::TimedRobot {
 
   void TeleopPeriodic() {
     // Drive with arcade style
-    m_robotDrive.ArcadeDrive(-m_stick.GetX(), -m_stick.GetY());
+    m_robotDrive.TankDrive(pad.GetLeftY(), -pad.GetRightY());
   }
 };
 
