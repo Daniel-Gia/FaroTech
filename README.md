@@ -1,15 +1,10 @@
-# Arcade Drive with CAN
+# Robot Control Base system by FaroTech Robotics Team
 
 ### Description
-This example shows how to set up arcade drive with SPARK MAX controllers connected via the CAN interface.
+Source code of our Robot Control Base program
 
 ### Usage
-Set the variables at the beginning of the example to match your setup.
-- `leftLeadDeviceID` - Left lead CAN device ID
-- `leftFollowDeviceID` - Left follower CAN device ID
-- `rightLeadDeviceID` - Right lead CAN device ID
-- `rightFollowDeviceID` - Righ follower CAN device ID
-
-Control the robot's forward and reverse movement by moving the left joystick up or down.
-
-Control the robot's heading by moving the right joystick left or right.
+Controling the robot (CAN Bus)
+- `Left Stick` - To control the left side of the robot
+- `Right Stick` - To control the right side of the robot
+- `B button (Gamepad)` - Switch between Fast Mode and Slow Mode
