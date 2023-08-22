@@ -11,6 +11,7 @@
 #include "rev/CANSparkMax.h"
 #include <frc/XboxController.h>
 #include <cameraserver/CameraServer.h>
+#include <iostream>
 
 class Robot : public frc::TimedRobot {
   /**
@@ -43,6 +44,7 @@ class Robot : public frc::TimedRobot {
 
   //frc::Joystick m_stick{0};
   frc::XboxController pad{0};
+  float speedMulFactor = 1;
   
  public:
   void RobotInit() {
@@ -70,8 +72,18 @@ class Robot : public frc::TimedRobot {
   }
 
   void TeleopPeriodic() {
-    // Drive with arcade style
-    m_robotDrive.TankDrive(pad.GetLeftY(), -pad.GetRightY());
+    // Drive with TankDrive
+    m_robotDrive.TankDrive(pad.GetLeftY() * speedMulFactor, -pad.GetRightY() * speedMulFactor);
+    if (pad.GetRightBumperPressed() && speedMulFactor < 1)
+    {
+      speedMulFactor += 0.2;
+      std::cout << "Speed Mode: " << speedMulFactor << "\n";
+    }
+    if (pad.GetLeftBumperPressed() && speedMulFactor > 0.6)
+    {
+      speedMulFactor -= 0.2;
+      std::cout << "Speed Mode: " << speedMulFactor << "\n";
+    }
   }
 };
 
