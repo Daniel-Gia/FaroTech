@@ -7,4 +7,3 @@ Source code of our Robot Control Base program
 Controling the robot (CAN Bus)
 - `Left Stick` - To control the left side of the robot
 - `Right Stick` - To control the right side of the robot
-- `B button (Gamepad)` - Switch between Fast Mode and Slow Mode
