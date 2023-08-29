@@ -69,11 +69,13 @@ class Robot : public frc::TimedRobot {
      */
     m_leftFollowMotor.Follow(m_leftLeadMotor);
     m_rightFollowMotor.Follow(m_rightLeadMotor);
+
+    m_rightLeadMotor.SetInverted(true);
   }
 
   void TeleopPeriodic() {
     // Drive with TankDrive
-    m_robotDrive.TankDrive(pad.GetLeftY() * speedMulFactor, -pad.GetRightY() * speedMulFactor);
+    m_robotDrive.TankDrive(pad.GetLeftY() * speedMulFactor, pad.GetRightY() * speedMulFactor);
     if (pad.GetRightBumperPressed() && speedMulFactor < 1)
     {
       speedMulFactor += 0.2;
