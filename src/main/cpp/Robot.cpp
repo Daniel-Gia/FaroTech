@@ -42,8 +42,11 @@ class Robot : public frc::TimedRobot {
    */
   frc::DifferentialDrive m_robotDrive{m_leftLeadMotor, m_rightLeadMotor};
 
-  //frc::Joystick m_stick{0};
-  frc::XboxController pad{0};
+  frc::Joystick m_stick{0};
+  frc::XboxController pad{1};
+  bool whichController = 1;
+
+
   float speedMulFactor = 1;
   
  public:
@@ -75,16 +78,35 @@ class Robot : public frc::TimedRobot {
 
   void TeleopPeriodic() {
     // Drive with TankDrive
-    m_robotDrive.TankDrive(pad.GetLeftY() * speedMulFactor, pad.GetRightY() * speedMulFactor);
-    if (pad.GetRightBumperPressed() && speedMulFactor < 1)
+    if (whichController == 1 || pad.GetLeftY() != 0 || pad.GetLeftY() != 0)
     {
-      speedMulFactor += 0.2;
-      std::cout << "Speed Mode: " << speedMulFactor << "\n";
+      whichController = 1;
+      m_robotDrive.TankDrive(pad.GetLeftY() * speedMulFactor, pad.GetRightY() * speedMulFactor);
+      if (pad.GetRightBumperPressed() && speedMulFactor < 1)
+      {
+        speedMulFactor += 0.2;
+        std::cout << "Speed Mode: " << speedMulFactor << "\n";
+      }
+      if (pad.GetLeftBumperPressed() && speedMulFactor > 0.6)
+      {
+        speedMulFactor -= 0.2;
+        std::cout << "Speed Mode: " << speedMulFactor << "\n";
+      }
     }
-    if (pad.GetLeftBumperPressed() && speedMulFactor > 0.6)
+    if (whichController == 0 || m_stick.GetRawAxis(0) != 0 || m_stick.GetRawAxis(1) != 0)
     {
-      speedMulFactor -= 0.2;
-      std::cout << "Speed Mode: " << speedMulFactor << "\n";
+      whichController = 0;
+      m_robotDrive.ArcadeDrive(m_stick.GetRawAxis(1) * speedMulFactor, m_stick.GetRawAxis(0) * speedMulFactor);
+      if (m_stick.GetRawButtonPressed(0) && speedMulFactor < 1)
+      {
+        speedMulFactor += 0.2;
+        std::cout << "Speed Mode: " << speedMulFactor << "\n";
+      }
+      if (m_stick.GetRawButtonPressed(1) && speedMulFactor > 0.6)
+      {
+        speedMulFactor -= 0.2;
+        std::cout << "Speed Mode: " << speedMulFactor << "\n";
+      }
     }
   }
 };
