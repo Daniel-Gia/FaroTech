@@ -70,7 +70,10 @@ class Robot : public frc::TimedRobot {
 
   void TeleopPeriodic()
   {
+    // Drive with the TankDrive method
     m_robotDrive.TankDrive(pad.GetLeftY() * speedMulFactor, pad.GetRightY() * speedMulFactor);
+
+    // If on of the bumpers were pressed, change the speed
 
     if (pad.GetRightBumperPressed() && speedMulFactor < 1)
     {
