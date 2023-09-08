@@ -46,13 +46,12 @@ class Robot : public frc::TimedRobot {
 
   frc::DifferentialDrive m_robotDrive{m_leftMotors, m_rightMotors};
 
-  frc::Joystick m_stick{0};
-  frc::XboxController pad{1};
+  frc::XboxController pad{0};
 
-  bool whichController = 1;
+  bool driveMode = 0;
 
   // Variable speedMulFactor is the value by which the input to the motors is multiplied
-  float speedMulFactor = 1;
+  float speedMulFactor = 0.4;
   
  public:
   void RobotInit() {
@@ -68,53 +67,42 @@ class Robot : public frc::TimedRobot {
     m_rightRearMotor.RestoreFactoryDefaults();
 
     m_rightMotors.SetInverted(true);
+
+    std::cout << "Speed mode set to " << speedMulFactor << ", drive mode set to " << driveMode << "\n";
   }
 
   void TeleopPeriodic()
   {
-    if (whichController == 1 || pad.GetLeftY() != 0 || pad.GetRightY() != 0)
+    if (driveMode == 0)
     {
-      // Switch to the xbox controller
-      whichController = 1;
-      
-      // Drive with the TankDrive method using the xbox controller
+      // Drive with the TankDrive
       m_robotDrive.TankDrive(pad.GetLeftY() * speedMulFactor, pad.GetRightY() * speedMulFactor);
-
-      // If on of the bumpers were pressed, change the speed
-
-      if (pad.GetRightBumperPressed() && speedMulFactor < 1)
-      {
-        speedMulFactor += 0.2;
-        std::cout << "Speed Mode: " << speedMulFactor << "\n";
-      }
-      if (pad.GetLeftBumperPressed() && speedMulFactor > 0.6)
-      {
-        speedMulFactor -= 0.2;
-        std::cout << "Speed Mode: " << speedMulFactor << "\n";
-      }
     }
-    if (whichController == 0 || m_stick.GetRawAxis(0) != 0 || m_stick.GetRawAxis(1))
+    else
     {
-      // Switch to the joystick
-      whichController = 0;
-
-      // Drive with the ArcadeDrive method using the joystick
-      m_robotDrive.ArcadeDrive(m_stick.GetRawAxis(1) * speedMulFactor, m_stick.GetRawAxis(0) * speedMulFactor);
-
-      // If on of the buttons were pressed, change the speed
-
-      if (m_stick.GetRawButtonPressed(0) && speedMulFactor < 1)
-      {
-        speedMulFactor += 0.2;
-        std::cout << "Speed Mode: " << speedMulFactor << "\n";
-      }
-      if (m_stick.GetRawButtonPressed(1) && speedMulFactor > 0.6)
-      {
-        speedMulFactor -= 0.2;
-        std::cout << "Speed Mode: " << speedMulFactor << "\n";
-      }
+        // Drive with the ArcadeDrive
+        m_robotDrive.ArcadeDrive(pad.GetLeftY() * speedMulFactor, pad.GetLeftX() * speedMulFactor);
     }
-  }
+
+    if (pad.GetAButtonPressed())
+    {
+        // Change the drive mode
+        driveMode = !driveMode;
+        std::cout << "Drive mode changed to " << driveMode << "\n";
+    }
+
+    // If one of the bumpers were pressed, change the speed
+    if (pad.GetRightBumperPressed() && speedMulFactor < 1)
+    {
+      speedMulFactor += 0.2;
+      std::cout << "Speed Mode: " << speedMulFactor << "\n";
+    }
+    if (pad.GetLeftBumperPressed() && speedMulFactor > 0.6)
+    {
+      speedMulFactor -= 0.2;
+      std::cout << "Speed Mode: " << speedMulFactor << "\n";
+    }
+  } 
 };
 
 #ifndef RUNNING_FRC_TESTS
