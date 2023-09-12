@@ -80,15 +80,12 @@ class Robot : public frc::TimedRobot
 		{
 		case 0:
 			m_robotDrive.TankDrive(pad.GetLeftY() * speedMulFactor, pad.GetRightY() * speedMulFactor);
-	  	break;
+	  		break;
 		case 1:
 			m_robotDrive.ArcadeDrive(pad.GetLeftY() * speedMulFactor, pad.GetLeftX() * speedMulFactor);
 			break;
 		case 2:
 			m_robotDrive.ArcadeDrive(pad.GetLeftY() * speedMulFactor, pad.GetRightX() * speedMulFactor);
-			break;
-		case 3:
-			m_robotDrive.CurvatureDrive(pad.GetLeftY() * speedMulFactor, pad.GetRightX() * speedMulFactor, pad.GetRightTriggerAxis() > 0);
 			break;
 		}
 	
@@ -107,11 +104,6 @@ class Robot : public frc::TimedRobot
 		{
 			driveMode = 2;
 			std::cout << "Drive mode changed to Arcade Drive (two joysticks)\n";
-		}
-		if (pad.GetYButtonPressed() && driveMode != 3)
-		{
-			driveMode = 3;
-			std::cout << "Drive mode changed to Curvature Drive\n";
 		}
 
 		// If one of the bumpers were pressed, change the speed
