@@ -5,6 +5,7 @@ Source code of our Robot Control Base program
 
 ### Usage
 Controling the robot (CAN Bus)
-- `Left Stick` - To control the left side of the robot
-- `Right Stick` - To control the right side of the robot
 - `Left/Right Bumper` - Adjust the speed of robot motors
+- `A` - Change the drive mode to Tank Drive
+- `B` - Change the drive mode to Arcade Drive with one joystick
+- `X` - Change the drive mode to Arcade Drive with two joysticks
