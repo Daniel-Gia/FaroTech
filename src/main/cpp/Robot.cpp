@@ -87,8 +87,23 @@ class Robot : public frc::TimedRobot
 		case 2:
 			m_robotDrive.ArcadeDrive(pad.GetLeftY() * speedMulFactor, pad.GetRightX() * speedMulFactor);
 			break;
+		case 3:
+			int y = 0, x = 0;
+			if(pad.POVUp()){
+				y += 1;
+			} else if(pad.POVDown()){
+				y -= 1;
+			}
+
+			if(pad.POVRight()){
+				x += 1;
+			} else if(pad.POVLeft()){
+				x -= 1;
+			}
+			m_robotDrive.ArcadeDrive(y * speedMulFactor, x * speedMulFactor);
+			break;
 		}
-	
+
 		// If one of the buttons pressed, change the drive mode
 		if (pad.GetAButtonPressed() && driveMode != 0)
 		{
@@ -106,6 +121,12 @@ class Robot : public frc::TimedRobot
 			std::cout << "Drive mode changed to Arcade Drive (two joysticks)\n";
 		}
 
+		if (pad.GetYButtonPressed() && driveMode != 3)
+		{
+			driveMode = 3;
+			std::cout << "test\n";
+		}
+
 		// If one of the bumpers were pressed, change the speed
 		if (pad.GetRightBumperPressed() && speedMulFactor < 1)
 		{
@@ -117,7 +138,6 @@ class Robot : public frc::TimedRobot
 		  speedMulFactor -= 0.2;
 		  std::cout << "Speed Mode: " << speedMulFactor << "\n";
 		}
-		///aaaaaaaa
   	} 
 };
 
